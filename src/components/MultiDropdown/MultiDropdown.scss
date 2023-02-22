@@ -1,0 +1,118 @@
+/* Dropdown container */
+.multi-dropdown {
+  position: relative;
+  display: inline-block;
+
+    /* Dropdown selected value */
+  .multi-dropdown__selected {
+    font-family: 'Circular Std';
+    border: 0.5px solid #DFE2E4;
+    background-color: #FFFFFF;
+    border-radius: 12px;
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: 450;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(108, 117, 125, 1);
+    cursor: pointer;
+    width: 360px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* transition: all 0.3s ease-in-out; */
+  }
+
+  /* Dropdown selected value disabled */
+  .multi-dropdown__selected--disabled{
+    font-family: 'Circular Std';
+    border: 0.5px solid #DFE2E4;
+    background-color: rgba(248, 249, 250, 255);
+    border-radius: 12px;
+    padding-left: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-weight: 450;
+    font-size: 12px;
+    line-height: 15px;
+    color: rgba(108, 117, 125, 1);
+    width: 360px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s ease-in-out; 
+  }
+}
+
+/* Dropdown options container */
+.multi-dropdown__options {
+  list-style: none;
+  padding: 0;
+  margin-top: 6px;
+  position: absolute;
+  z-index: 1;
+  top: 100%;
+  left: 0;
+  border: 0.5px solid #DFE2E4;
+  border-radius: 12px;
+  overflow: auto;
+  width: 100%;
+  transition: all 0.3s ease-in-out; 
+  transform: scaleY(0);
+  transform-origin: top center;
+  opacity: 0;
+  pointer-events: none;
+  font-family: 'Circular Std';
+}
+
+/* Контейнер выпадающих опций, когда он открыт */
+.multi-dropdown__options--open {
+  transform: scaleY(1);
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* Выпадающий вариант */
+.multi-dropdown__option {
+  padding-left: 8px;
+  padding-top: 5px;
+  padding-bottom: 4px;
+  font-weight: 450;
+  font-size: 12px;
+  line-height: 15px;
+  color: #343A40;
+  cursor: pointer;
+  font-family: 'Circular Std';
+  transition: all 0.3s ease-in-out; 
+}
+
+/* Выпадающий вариант, когда он выбран */
+.multi-dropdown__option--selected {
+  background-color: rgb(248, 249, 250);
+}
+
+/* Выпадающий вариант при наведении курсора */
+.multi-dropdown__option:hover {
+  background-color: rgb(248, 249, 250);
+}
+
+  .icon {
+    width: 16px;
+    height: 16px;
+    position: relative;
+  }
+  
+  .icon::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    margin: -4px 0 0 -10px;
+    border-style: solid;
+    border-width: 4px 4px 0 4px;
+    border-color: rgba(108, 117, 125, 1) transparent transparent transparent;
+  }

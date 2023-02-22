@@ -1,0 +1,58 @@
+.button {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 450;
+  line-height: 18px;
+  height: 34px;
+  background-color: rgb(223, 226, 228);
+  color: #343A40;
+  font-family: 'Circular Std';
+  cursor: pointer;
+  transition: 250ms;
+}
+
+.loader {
+  display: inline-block;
+  border: 3px solid #343A40;
+  border-radius: 50%;
+  border-top: 3px solid transparent;
+  width: 15px;
+  height: 15px;
+  transform: rotate(135deg);
+  margin-right: 4.47px;
+}
+
+.button:hover {
+  background-color: rgba(223, 226, 228, 0.5);
+  color: rgba(52, 58, 64, 0.5);
+  transition: 250ms;
+
+  .loader {
+    border: 3px solid rgba(52, 58, 64, 0.5);
+    border-top: 3px solid transparent;
+  }
+}
+
+.button:disabled {
+  background-color: rgba(223, 226, 228, 0.3);
+  color: rgba(52, 58, 64, 0.3);
+
+  .loader {
+    border: 3px solid rgba(52, 58, 64, 0.3);
+    border-top: 3px solid transparent;
+  }
+}
+
+.button:active {
+  -webkit-box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
+  -moz-box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
+  box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
+  transition: none;
+}
