@@ -1,25 +1,34 @@
 import React from 'react'
+import "./CoinPage.scss"
+import { useNavigate  } from "react-router-dom";
+
 
 const CoinPage = () => {
+  const navigate = useNavigate();
+
   return (
     <div className='Coin_page'>
       <div className='Coin_Header'>
-        <div className='Exit_icon'/>
-        <img src="" alt="" />
+        <div className='Exit_icon' onClick={() => navigate(`/`)}/>
+        <img 
+          src="https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg" 
+          alt="Coin_image"
+          className="Coin_image" 
+        />
         <div className='Coin_Title'>
         Coin_Title
         </div>
         <div className='Coin_abriviation'>
         Coin_abriviation
         </div>
-        <div className='Star_button'/>
+        {/* checkbox favorites */}
       </div>
       <div className='Coin_body'>
         <div className='Price_title'>
           <div className='Price'>
           Price
           </div>
-          <div className='Price_difference'>
+          <div className='Price_difference plus'>
           Price_difference
           </div>
         </div>

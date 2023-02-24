@@ -1,16 +1,63 @@
 import { Button } from '@components/Button/Button'
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import { Input } from './components/Input/Input'
 import MenuButtons from './components/MenuButtons/MenuButtons'
 import { MultiDropdown, Option } from './components/MultiDropdown/MultiDropdown'
 import SearchIcon from "./components/Images/SearchIcon.png"
 import "./Market.scss"
+import axios from 'axios'
+import { Card } from './components/Card/Card'
+
+export type Coins = {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: string;
+  price_change_percentage_24h: string;
+}
 
 const Market = () => {
   const [input, setInput] = useState<string>("")
   const [search, setSearch] = useState<string>("")
   const [select, setSelect] = useState<Option[]>([])
   const [activeTab, setActiveTab] = useState("All");
+  const [coins, setCoins] = useState<Coins[]>([])
+
+  useEffect(() => {
+    const fetchCoins = async () => {
+      try {
+        const result = await axios({
+          method: "get",
+          url:
+            "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd",
+        });
+        setCoins(
+          result.data.map((coin: Coins) => ({
+            id: coin.id,
+            symbol: coin.symbol,
+            name: coin.name,
+            image: coin.image,
+            current_price: coin.current_price,
+            price_change_percentage_24h: coin.price_change_percentage_24h,
+          }))
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  
+    // Call fetchCoins immediately when component is mounted
+    fetchCoins();
+  
+    // Call fetchCoins every 30 seconds
+    const interval = setInterval(() => {
+      fetchCoins();
+    }, 30000);
+  
+    // Clear the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, []);
 
   const search_element = () => {
     setSearch(input)
@@ -20,6 +67,31 @@ const Market = () => {
   const handleTabChange = (newTab: string) => {
     setActiveTab(newTab);
   };
+
+  const card_creator = (coin: Coins) => 
+    <Card
+      key={coin.id+coin.name+activeTab}
+      image={coin.image}
+      title={coin.name}
+      subtitle={<a href="/coin">{coin.symbol}</a>}
+      content={<span><b>₹{coin.current_price}</b><i className={ Number(coin.price_change_percentage_24h) >= 0 ? "percent plus" : "percent minus"}>{coin.price_change_percentage_24h}%</i></span>}
+    />
+
+  const coins_cards = coins.map((coin)=>{
+    return(
+    activeTab == "All" ?
+      card_creator(coin)
+    : activeTab == "Gainer" ? 
+        Number(coin.price_change_percentage_24h) >= 0 ?
+          card_creator(coin)
+        : <div/>
+      : activeTab == "Loser" ? 
+        Number(coin.price_change_percentage_24h) < 0 ?
+          card_creator(coin)
+        : <div/>
+      : <div/>
+    )
+  })
 
   return (
     <div className='Market_page'> 
@@ -64,7 +136,7 @@ const Market = () => {
         </div>
       </div>
       <div className='Market_Body'>
-      Market_Body
+        {coins_cards}
       </div>
     </div>
   )

@@ -1,10 +1,10 @@
 .card{
-    position: absolute;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    width: 343px;
-    padding: 16px;
+    width: 100%;
+    // padding: 16px;
+    margin-bottom: 8px;
     border-radius: 8px;
     border: none;
     background-color: #FFFFFF;
@@ -17,6 +17,9 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        margin-top: 16px;
+        margin-left: 16px;
+        margin-bottom: 16px;
 
         .card__image{
             width: 40px;
@@ -51,31 +54,41 @@
 
     .card__content{
         display: flex;
+        margin-right: 16px;
 
         .card__extra-content{
             display: flex;
             flex-direction: column;
+            
 
             span{ 
                 display: flex;
                 flex-direction: column;
+                float:right;
+                text-align: right;
             
                 b{
                     font-style: normal;
                     font-weight: 450;
                     font-size: 16px;
                     line-height: 20px;
-                    display: flex;
                     align-items: center;
                     color: #343A40;
                 }
                 
-                i{
+                .percent{
                     font-style: normal;
                     font-weight: 500;
                     font-size: 10px;
                     line-height: 13px;
+                }    
+
+                .percent.plus{
                     color: #21BF73;
+                }
+
+                .percent.minus{
+                    color: #bf2121;
                 }
             }
             
