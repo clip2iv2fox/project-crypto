@@ -1,5 +1,4 @@
 .button {
-  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,4 +54,8 @@
   -moz-box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
   box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
   transition: none;
+}
+
+.search{
+  height: 41px;
 }

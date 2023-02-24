@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import './MultiDropdown.scss';
 
 /** Вариант для выбора в фильтре */
-type Option = {
+export type Option = {
   /** Ключ варианта, используется для отправки на бек/использования в коде */
   key: string;
   /** Значение варианта, отображается пользователю */
@@ -10,7 +10,7 @@ type Option = {
 };
 
 /** Пропсы, которые принимает компонент Dropdown */
-type MultiDropdownProps = {
+export type MultiDropdownProps = {
   /** Массив возможных вариантов для выбора */
   options: Option[];
   /** Текущие выбранные значения поля, может быть пустым */
