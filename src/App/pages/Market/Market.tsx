@@ -1,5 +1,5 @@
 import { Button } from '@components/Button/Button'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Input } from './components/Input/Input'
 import MenuButtons from './components/MenuButtons/MenuButtons'
 import { MultiDropdown, Option } from './components/MultiDropdown/MultiDropdown'
@@ -7,6 +7,9 @@ import SearchIcon from "./components/Images/SearchIcon.png"
 import "./Market.scss"
 import axios from 'axios'
 import { Card } from './components/Card/Card'
+import { useNavigate } from "react-router-dom";
+import { CoinContext } from "../../../configs/CoinContext";
+import { Loader } from '@components/Loader/Loader'
 
 export type Coins = {
   id: string;
@@ -14,7 +17,14 @@ export type Coins = {
   name: string;
   image: string;
   current_price: string;
+  price_change_24h: string
   price_change_percentage_24h: string;
+  market_cap: string;
+  fully_diluted_valuation: string;
+  circulating_supply: string;
+  total_supply: string;
+  max_supply: string;
+  description: string;
 }
 
 const Market = () => {
@@ -23,10 +33,16 @@ const Market = () => {
   const [select, setSelect] = useState<Option[]>([])
   const [activeTab, setActiveTab] = useState("All");
   const [coins, setCoins] = useState<Coins[]>([])
+  const [loading, setloading] = useState<boolean>(false)
+
+  const { setCoinName } = useContext(CoinContext);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
+        setloading(true)
         const result = await axios({
           method: "get",
           url:
@@ -42,10 +58,12 @@ const Market = () => {
             price_change_percentage_24h: coin.price_change_percentage_24h,
           }))
         );
+        setloading(false)
       } catch (error) {
         console.log(error);
       }
     };
+
   
     // Call fetchCoins immediately when component is mounted
     fetchCoins();
@@ -68,13 +86,19 @@ const Market = () => {
     setActiveTab(newTab);
   };
 
+  const goToCoin = (id: string) => {
+    navigate(`/coin`)
+    setCoinName(id)
+  }
+
   const card_creator = (coin: Coins) => 
     <Card
       key={coin.id+coin.name+activeTab}
       image={coin.image}
       title={coin.name}
-      subtitle={<a href="/coin">{coin.symbol}</a>}
-      content={<span><b>₹{coin.current_price}</b><i className={ Number(coin.price_change_percentage_24h) >= 0 ? "percent plus" : "percent minus"}>{coin.price_change_percentage_24h}%</i></span>}
+      onClick={() => goToCoin(coin.id)}
+      subtitle={<a>{coin.symbol}</a>}
+      content={<span><b>${coin.current_price.toLocaleString()}</b><i className={ Number(coin.price_change_percentage_24h) >= 0 ? "percent plus" : "percent minus"}>{Number(coin.price_change_percentage_24h) >= 0 ? `+${coin.price_change_percentage_24h.toLocaleString()}` : coin.price_change_percentage_24h.toLocaleString()}%</i></span>}
     />
 
   const coins_cards = coins.map((coin)=>{
@@ -117,9 +141,8 @@ const Market = () => {
           <div className='Market_Category'>
             <MultiDropdown
               options={[
-                  { key: 'msk', value: 'msk' },
-                  { key: 'spb', value: 'spb' },
-                  { key: 'ekb', value: 'ekb' }
+                  { key: 'usd', value: 'usd' },
+                  { key: 'eur', value: 'eur' },
               ]}
               value={[{ key: 'msk', value: 'msk' }]}
               onChange={( value: Option[]) => setSelect(value)}
@@ -136,7 +159,13 @@ const Market = () => {
         </div>
       </div>
       <div className='Market_Body'>
-        {coins_cards}
+        {loading ?
+          <div className='Body_loading'>
+            <div className='Body_text'><Loader className='market'/><div>Loading</div></div>
+          </div>
+        :
+          coins_cards
+        }
       </div>
     </div>
   )

@@ -40,4 +40,25 @@ $font-size-regular: 16px;
             }
         }
     }
+
+    .Market_Body{
+        justify-content: center;
+
+        .Body_loading{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            color: #6C757D;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 23px;
+
+            .Body_text{
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+    }
 }
