@@ -58,15 +58,15 @@ const CoinPage = () => {
       }
     };
 
-    // Call fetchCoins immediately when component is mounted
+    // Вызовите fetch Coins немедленно, когда компонент смонтирован
     fetchCoin();
   
-    // Call fetchCoins every 30 seconds
+    // Вызывайте сбор монет каждые 30 секунд
     const interval = setInterval(() => {
       fetchCoin();
-    }, 30000);
+    }, 15000);
   
-    // Clear the interval when the component unmounts
+    // Очистите интервал при отключении компонента
     return () => clearInterval(interval);
   }, []);
 
