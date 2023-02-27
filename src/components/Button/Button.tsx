@@ -34,9 +34,9 @@ export const Button: React.FC<ButtonProps> = ({
       style={style}
     >
       {loading && (
-      <div style={{ marginRight: '4.47px' }}>
-        <Loader className={'b'} size={LoaderSize.s}/>
-      </div>
+        <div style={{ marginRight: "4.47px" }}>
+          <Loader className={"b"} size={LoaderSize.s} />
+        </div>
       )}
       {children}
     </button>

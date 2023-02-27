@@ -1,0 +1,36 @@
+.menu-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    width: 100%;
+    border-bottom: 1px solid rgba(223, 226, 228, 1);
+  
+    .menu-button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: rgba(108, 117, 125, 1);
+      border: none;
+      background-color: transparent;
+      padding-bottom: 1px;
+      padding-right: 16px;
+      padding-left: 16px;
+      cursor: pointer;
+      transition: 200ms;
+  
+      &:hover {
+        color: rgba(0, 99, 245, 1);
+        transition: 200ms;
+      }
+  
+      &.active {
+        color: rgba(0, 99, 245, 1);
+        border-bottom: 2px solid rgba(0, 99, 245, 1);
+        transition: none;
+      }
+    }
+  }
+  
