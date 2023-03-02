@@ -2,8 +2,12 @@
 @import './Roboto/fonts';
 @import './EudoxusSans/fonts';
 @import './Avenir/fonts';
+@import '../variables.scss';
 
-html, body {
+html,
+body {
+  display: flex;
+  justify-content: center;
   font-family: 'Circular Std';
-  background-color: #F9F9F9;
+  background-color: $bg-color;
 }

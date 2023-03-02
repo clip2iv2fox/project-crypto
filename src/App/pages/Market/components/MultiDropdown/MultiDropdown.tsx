@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import './MultiDropdown.scss';
+import styles from './MultiDropdown.module.scss';
 
 /** Вариант для выбора в фильтре */
 export type Option = {
@@ -75,24 +75,24 @@ export const MultiDropdown: React.FC<MultiDropdownProps> = ({
   };
 
   return (
-    <div ref={dropdownRef} className="multi-dropdown">
-      <div className={disabled ? "multi-dropdown__selected--disabled" : "multi-dropdown__selected"} style={{ fontFamily: 'Circular Std' }} onClick={toggleDropdown}>
+    <div ref={dropdownRef} className={`${styles.multi_dropdown}`}>
+      <div className={disabled ? `${styles.multi_dropdown__selected_disabled}` : `${styles.multi_dropdown__selected}`} onClick={toggleDropdown}>
         {pluralizeOptions(value)}
-        <div className='icon'/>
+        <div className={`${styles.icon}`}/>
       </div>
       {!disabled && (
         <ul
           ref={optionsRef}
-          className={`multi-dropdown__options ${
-            isOpen ? 'multi-dropdown__options--open' : ''
+          className={`${styles.multi_dropdown__options} ${
+            isOpen ? styles.multi_dropdown__options_open : ''
           }`}
         >
           {isOpen && options.map((option) => (
             <li
               key={option.key}
-              className={`multi-dropdown__option ${
+              className={`${styles.multi_dropdown__option} ${
                 value.findIndex((o) => o.key === option.key) !== -1
-                  ? 'multi-dropdown__option--selected'
+                  ? styles.multi_dropdown__option_selected
                   : ''
               }`}
               onClick={() => handleOptionClick(option)}

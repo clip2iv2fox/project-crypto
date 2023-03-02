@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "./MenuButtons.scss";
+import styles from "./MenuButtons.module.scss";
 
 interface MenuButtonsProps {
   activeTab: string;
@@ -10,11 +10,11 @@ interface MenuButtonsProps {
 
 const MenuButtons: React.FC<MenuButtonsProps> = ({ activeTab, tabs, onChangeTab }) => {
   return (
-    <div className="menu-buttons">
-      {tabs.map((tab, index) => (
+    <div className={`${styles.menu_buttons}`} >
+      {tabs.map((tab) => (
         <button
-          key={index}
-          className={`menu-button ${tab === activeTab ? "active" : ""}`}
+          key={tab}
+          className={`${styles.menu_button} ${tab === activeTab ? styles._active : ""}`} 
           onClick={() => onChangeTab(tab)}
         >
           {tab}

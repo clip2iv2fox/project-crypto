@@ -34,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
       style={style}
     >
       {loading && (
-        <div style={{ marginRight: "4.47px" }}>
+        <div className="loading_text">
           <Loader className={"b"} size={LoaderSize.s} />
         </div>
       )}

@@ -1,15 +1,14 @@
-import { Button } from '@components/Button/Button'
-import React, { useState, useEffect, useContext } from 'react'
-import { Input } from './components/Input/Input'
-import MenuButtons from './components/MenuButtons/MenuButtons'
-import { MultiDropdown, Option } from './components/MultiDropdown/MultiDropdown'
-import SearchIcon from "./components/Images/SearchIcon.png"
-import "./Market.scss"
-import axios from 'axios'
-import { Card } from './components/Card/Card'
+import { useState, useEffect } from "react";
+import { Button } from "@components/Button/Button";
+import { Input } from "./components/Input/Input";
+import MenuButtons from "./components/MenuButtons/MenuButtons";
+import { MultiDropdown, Option } from "./components/MultiDropdown/MultiDropdown";
+import SearchIcon from "./components/Images/SearchIcon.png";
+import styles from "./Market.module.scss";
+import axios from "axios";
+import { Card } from "./components/Card/Card";
 import { useNavigate } from "react-router-dom";
-import { CoinContext } from "../../../configs/CoinContext";
-import { Loader } from '@components/Loader/Loader'
+import { Loader } from "@components/Loader/Loader";
 
 export type Coins = {
   id: string;
@@ -33,16 +32,12 @@ const Market = () => {
   const [select, setSelect] = useState<Option[]>([])
   const [activeTab, setActiveTab] = useState("All");
   const [coins, setCoins] = useState<Coins[]>([])
-  const [loading, setloading] = useState<boolean>(false)
-
-  const { setCoinName } = useContext(CoinContext);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCoins = async () => {
       try {
-        setloading(true)
         const result = await axios({
           method: "get",
           url:
@@ -58,22 +53,17 @@ const Market = () => {
             price_change_percentage_24h: coin.price_change_percentage_24h,
           }))
         );
-        setloading(false)
       } catch (error) {
         console.log(error);
       }
     };
-
   
-    // Вызовите fetch Coins немедленно, когда компонент смонтирован
     fetchCoins();
   
-    // Вызывайте сбор монет каждые 30 секунд
     const interval = setInterval(() => {
       fetchCoins();
     }, 15000);
   
-    // Очистите интервал при отключении компонента
     return () => clearInterval(interval);
   }, []);
 
@@ -87,8 +77,7 @@ const Market = () => {
   };
 
   const goToCoin = (id: string) => {
-    navigate(`/coin`)
-    setCoinName(id)
+    navigate(`/coin/${id}`)
   }
 
   const card_creator = (coin: Coins) => 
@@ -97,11 +86,12 @@ const Market = () => {
       image={coin.image}
       title={coin.name}
       onClick={() => goToCoin(coin.id)}
-      subtitle={<a>{coin.symbol}</a>}
-      content={<span><b>${coin.current_price.toLocaleString()}</b><i className={ Number(coin.price_change_percentage_24h) >= 0 ? "percent plus" : "percent minus"}>{Number(coin.price_change_percentage_24h) >= 0 ? `+${coin.price_change_percentage_24h.toLocaleString()}` : coin.price_change_percentage_24h.toLocaleString()}%</i></span>}
+      subtitle={coin.symbol}
+      contentUp={coin.current_price.toLocaleString()}
+      contentDown={coin.price_change_percentage_24h}
     />
 
-  const coins_cards = coins.map((coin)=>{
+  const coins_cards = coins.map((coin: Coins)=>{
     return(
     activeTab == "All" ?
       card_creator(coin)
@@ -118,39 +108,39 @@ const Market = () => {
   })
 
   return (
-    <div className='Market_page'> 
-      <div className='Market_header'>
-        <div className='Market_Searcher'>
+    <div className={`${styles.Market_page}`}> 
+      <div className={`${styles.Market_header}`}>
+        <div className={`${styles.Market_Searcher}`}>
           <Input
             value={input}
             onChange={(value: string) => setInput(value)}
             placeholder="Search Cryptocurrency"
           />
-          <Button className="search" onClick={() => search_element()}>
+          <Button className={`search`} onClick={() => search_element()}>
             <img 
               src={SearchIcon} 
               alt="SearchIcon"
-              className="SearchIcon" 
+              className={`${styles.SearchIcon}`}
             />
           </Button>
         </div>
-        <div className='Market_Title_Area'>
-          <div className='Market_Title'>
+        <div className={`${styles.Market_Title_Area}`}>
+          <div className={`${styles.Market_Title}`}>
             Coins
           </div>
-          <div className='Market_Category'>
+          <div className={`${styles.Market_Category}`}>
             <MultiDropdown
               options={[
-                  { key: 'usd', value: 'usd' },
-                  { key: 'eur', value: 'eur' },
+                  { key: "usd", value: "usd" },
+                  { key: "eur", value: "eur" },
               ]}
-              value={[{ key: 'msk', value: 'msk' }]}
+              value={[{ key: "msk", value: "msk" }]}
               onChange={( value: Option[]) => setSelect(value)}
               pluralizeOptions={() => select.length > 0 ? `Selected: ${select.length}` : `Chose category`}
             />
           </div>
         </div>
-        <div className='Market_Menu'>
+        <div className={`${styles.Market_Menu}`}>
           <MenuButtons
             activeTab={activeTab}
             tabs={["All", "Gainer", "Loser", "Favourites"]}
@@ -158,10 +148,10 @@ const Market = () => {
           />
         </div>
       </div>
-      <div className='Market_Body'>
-        {loading ?
-          <div className='Body_loading'>
-            <div className='Body_text'><Loader className='market'/><div>Loading</div></div>
+      <div className={`${styles.Market_Body}`}>
+        {coins.length === 0 ?
+          <div className={`${styles.Body_loading}`}>
+            <div className={`${styles.Body_text}`}><Loader className="market"/><div>Loading</div></div>
           </div>
         :
           coins_cards

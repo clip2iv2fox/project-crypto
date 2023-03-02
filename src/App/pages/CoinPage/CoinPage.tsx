@@ -1,39 +1,39 @@
-import React, { useEffect, useState, useContext } from 'react'
-import "./CoinPage.scss"
+import { useEffect, useState } from "react";
+import styles from "./CoinPage.module.scss";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
-import { Coins } from '@pages/Market/Market';
-import { CoinContext } from "../../../configs/CoinContext";
-import { Loader } from '@components/Loader/Loader';
+import axios from "axios";
+import { Coins } from "@pages/Market/Market";
+import { Loader } from "@components/Loader/Loader";
+import { Coin_info } from "./components/CoinInfo/CoinInfo";
+import { useParams } from "react-router-dom";
 
 const CoinPage = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<boolean>(false)
   const [coin, setCoin] = useState<Coins>({
-    id: '',
-    symbol: '',
-    name: '',
-    image: '',
-    current_price: '',
-    price_change_24h: '',
-    price_change_percentage_24h: '',
-    market_cap: '',
-    fully_diluted_valuation: '',
-    circulating_supply: '',
-    total_supply: '',
-    max_supply: '',
-    description: '',}
+    id: "",
+    symbol: "",
+    name: "",
+    image: "",
+    current_price: "",
+    price_change_24h: "",
+    price_change_percentage_24h: "",
+    market_cap: "",
+    fully_diluted_valuation: "",
+    circulating_supply: "",
+    total_supply: "",
+    max_supply: "",
+    description: "",
+  }
   )
-  const [loading, setloading] = useState<boolean>(false)
-
-  const { coinName } = useContext(CoinContext);
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchCoin = async () => {
       try {
-        setloading(true)
         const result = await axios({
           method: "get",
-          url: `https://api.coingecko.com/api/v3/coins/${coinName}`,
+          url: `https://api.coingecko.com/api/v3/coins/${id}`,
         });
         setCoin(
           {
@@ -52,33 +52,20 @@ const CoinPage = () => {
             description: result.data.description.en,
           },
         );
-        setloading(false)
+        setError(false)
       } catch (error) {
-        console.log(error);
+        setError(true)
       }
     };
 
-    // Вызовите fetch Coins немедленно, когда компонент смонтирован
     fetchCoin();
-  
-    // Вызывайте сбор монет каждые 30 секунд
+
     const interval = setInterval(() => {
       fetchCoin();
     }, 15000);
-  
-    // Очистите интервал при отключении компонента
+
     return () => clearInterval(interval);
   }, []);
-
-  const coin_info = (name: string, price: string) =>
-    <div className='Coin_info'>
-      <div className='info_name'>
-        {name}
-      </div>
-      <div className='info_price'>
-        {price}
-      </div>
-    </div>
 
   const description_creator = (description: string) => {
     const parser = new DOMParser();
@@ -87,68 +74,73 @@ const CoinPage = () => {
   };
 
   return (
-      loading ?
-          <div className='Page_loading'>
-            <div className='Exit_icon' onClick={() => navigate(`/`)}/>
+    error ?
+    <div className={`${styles.Page_loading}`}>
+      <div className={`${styles.Exit_icon}`} onClick={() => navigate(`/`)} />
 
-            <div className='Body_text'><Loader className='market'/><div>Loading</div></div>
-          </div>
-      :
-      <div className='Coin_page'>
-        <div className='Coin_Header'>
-          <div className='Exit_icon' onClick={() => navigate(`/`)}/>
-          <img 
-            src={coin.image}
-            alt="Coin_image"
-            className="Coin_image" 
-            onClick={() => console.log(coin)}
-          />
-          <div className='Coin_name'>
-            <div className='Coin_Title'>
-              {coin.name}
-            </div>
-            <div className='Coin_abriviation'>
-              ({coin.symbol})
-            </div>
-          </div>
-          {/* checkbox favorites */}
-        </div>
-        <div className='Coin_body'>
-          <div className='Price_title'>
-            <div className='Price'>
-              ${coin.current_price.toLocaleString()}
-            </div>
-            <div className={`Price_difference ${ Number(coin.price_change_percentage_24h) >= 0 ? "plus" : "minus"}`}>
-            {Number(coin.price_change_24h) >= 0 ? `+${coin.price_change_24h.toLocaleString()}` : coin.price_change_24h.toLocaleString()} ({Number(coin.price_change_percentage_24h) >= 0 ? `+${coin.price_change_percentage_24h.toLocaleString()}` : coin.price_change_percentage_24h.toLocaleString()}%)
-            </div>
-          </div>
-          {/* ставим map с повтором инфы либо через поток, либо через свой JSON */}
-          {coin_info("Market Cap", `$${coin.market_cap.toLocaleString()}`)}
-          {coin_info("Fully Diluted Valuation", `$${coin.fully_diluted_valuation.toLocaleString()}`)}
-          {coin_info("Circulating Supply", coin.circulating_supply == null ? "<none>" : coin.circulating_supply.toLocaleString())}
-          {coin_info("Total Supply", coin.total_supply == null ? "<none>" : coin.total_supply.toLocaleString())}
-          {coin_info("Max Supply", coin.max_supply == null ? "<none>" : coin.max_supply.toLocaleString())}
-          <div className='Coin_description'>
-            <div className='description_title'>
-              Description
-            </div>
-            <div className='description_info'>
-              {description_creator(coin.description)}
-            </div>
-          </div>
-          {/* <div className="Coin_diagram">
-            <div className='diagram_title'>
-              Diagram
-            </div>
-            <div className='diagram_chart'>
-            diagram_chart
-            </div>
-            <div className='diagram_time'>
-            diagram_time
-            </div>
-          </div> */}
-        </div>
+      <div className={`${styles.Body_text} ${styles.error}`}>Error, wrong coin...</div>
     </div>
+    :
+      coin.id === "" ?
+        <div className={`${styles.Page_loading}`}>
+          <div className={`${styles.Exit_icon}`} onClick={() => navigate(`/`)} />
+
+          <div className={`${styles.Body_text}`}><Loader className="market" /><div>Loading</div></div>
+        </div>
+        :
+        <div className={`${styles.Coin_page}`}>
+          <header className={`${styles.Coin_Header}`}>
+            <div className={`${styles.Exit_icon}`} onClick={() => navigate(`/`)} />
+            <img
+              src={coin.image}
+              alt="Coin_image"
+              className={`${styles.Coin_image}`}
+            />
+            <div className={`${styles.Coin_name}`}>
+              <div className={`${styles.Coin_Title}`}>
+                {coin.name}
+              </div>
+              <div className={`${styles.Coin_abriviation}`}>
+                ({coin.symbol})
+              </div>
+            </div>
+          </header>
+          <div className={`${styles.Coin_body}`}>
+            <div className={`${styles.Price_title}`}>
+              <div className={`${styles.Price}`}>
+                ${coin.current_price.toLocaleString()}
+              </div>
+              <div className={`${styles.Price_difference} ${Number(coin.price_change_percentage_24h) >= 0 ? styles.plus : styles.minus}`}>
+                {
+                  Number(coin.price_change_24h) >= 0 ? 
+                    `+${coin.price_change_24h.toLocaleString()}` 
+                  : 
+                    coin.price_change_24h.toLocaleString()
+                }  
+                ({
+                  Number(coin.price_change_percentage_24h) >= 0 ? 
+                    `+${coin.price_change_percentage_24h.toLocaleString()}` 
+                  : 
+                    coin.price_change_percentage_24h.toLocaleString()
+                }%)
+              </div>
+            </div>
+            <Coin_info name={"Market Cap"} price={`$${coin.market_cap.toLocaleString()}`}/>
+            <Coin_info name={"Fully Diluted Valuation"} price={`$${coin.fully_diluted_valuation.toLocaleString()}`}/>
+            <Coin_info name={"Circulating Supply"} price={coin.circulating_supply == null ? "<none>" : coin.circulating_supply.toLocaleString()}/>
+            <Coin_info name={"Total Supply"} price={coin.total_supply == null ? "<none>" : coin.total_supply.toLocaleString()}/>
+            <Coin_info name={"Max Supply"} price={coin.max_supply == null ? "<none>" : coin.max_supply.toLocaleString()}/>
+            <div className={`${styles.Coin_description}`}>
+              <div className={`${styles.description_title}`}>
+                Description
+              </div>
+              <article className={`${styles.description_info}`}>
+                {description_creator(coin.description)}
+              </article>
+            </div>
+          </div>
+        </div>
+    
   )
 }
 

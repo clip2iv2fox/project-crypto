@@ -1,18 +1,20 @@
-.menu-buttons {
+@import '../../../../../variables.scss';
+
+.menu_buttons {
     display: flex;
     justify-content: center;
     align-items: center;
     margin-top: 16px;
     width: 100%;
-    border-bottom: 1px solid rgba(223, 226, 228, 1);
+    border-bottom: 1px solid $opacity-font-color;
   
-    .menu-button {
+    .menu_button {
       display: flex;
       justify-content: center;
       align-items: center;
       font-size: 14px;
       font-weight: bold;
-      color: rgba(108, 117, 125, 1);
+      color: $default-font-color;
       border: none;
       background-color: transparent;
       padding-bottom: 1px;
@@ -22,13 +24,13 @@
       transition: 200ms;
   
       &:hover {
-        color: rgba(0, 99, 245, 1);
+        color: $blue-color;
         transition: 200ms;
       }
   
-      &.active {
-        color: rgba(0, 99, 245, 1);
-        border-bottom: 2px solid rgba(0, 99, 245, 1);
+      &._active {
+        color: $blue-color;
+        border-bottom: 2px solid $blue-color;
         transition: none;
       }
     }
