@@ -1,4 +1,6 @@
 import React from "react";
+
+import { shallowEqual } from "@babel/types";
 import "./Loader.scss";
 
 /** Возможные значения размера лоадера */
@@ -27,7 +29,7 @@ export type LoaderProps = {
   className?: string;
 };
 
-export const Loader: React.FC<LoaderProps> = ({
+const Loader: React.FC<LoaderProps> = ({
   loading = true,
   size = LoaderSize.m,
   className,
@@ -58,3 +60,7 @@ export const Loader: React.FC<LoaderProps> = ({
     ></div>
   );
 };
+
+export default React.memo(Loader, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});

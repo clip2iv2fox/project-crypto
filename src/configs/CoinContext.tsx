@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from "react";
 
 interface CoinContextType {
-  coinName: string | undefined;
+  coinName: string | undefined; 
   setCoinName: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 

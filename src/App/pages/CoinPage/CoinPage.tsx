@@ -3,7 +3,7 @@ import styles from "./CoinPage.module.scss";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Coins } from "@pages/Market/Market";
-import { Loader } from "@components/Loader/Loader";
+import Loader from "@components/Loader/Loader";
 import { Coin_info } from "./components/CoinInfo/CoinInfo";
 import { useParams } from "react-router-dom";
 
@@ -126,7 +126,8 @@ const CoinPage = () => {
               </div>
             </div>
             <Coin_info name={"Market Cap"} price={`$${coin.market_cap.toLocaleString()}`}/>
-            <Coin_info name={"Fully Diluted Valuation"} price={`$${coin.fully_diluted_valuation.toLocaleString()}`}/>
+            <Coin_info name={"Fully Diluted Valuation"} price={`$
+              ${coin.fully_diluted_valuation !== undefined ? coin.fully_diluted_valuation.toLocaleString() : coin.fully_diluted_valuation}`}/>
             <Coin_info name={"Circulating Supply"} price={coin.circulating_supply == null ? "<none>" : coin.circulating_supply.toLocaleString()}/>
             <Coin_info name={"Total Supply"} price={coin.total_supply == null ? "<none>" : coin.total_supply.toLocaleString()}/>
             <Coin_info name={"Max Supply"} price={coin.max_supply == null ? "<none>" : coin.max_supply.toLocaleString()}/>
@@ -135,7 +136,7 @@ const CoinPage = () => {
                 Description
               </div>
               <article className={`${styles.description_info}`}>
-                {description_creator(coin.description)}
+                {coin.description !== undefined ? description_creator(coin.description) : coin.description}
               </article>
             </div>
           </div>

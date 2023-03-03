@@ -1,5 +1,5 @@
+import { shallowEqual } from "@babel/types";
 import React from "react";
-import PropTypes from "prop-types";
 import styles from "./MenuButtons.module.scss";
 
 interface MenuButtonsProps {
@@ -24,4 +24,6 @@ const MenuButtons: React.FC<MenuButtonsProps> = ({ activeTab, tabs, onChangeTab 
   );
 };
 
-export default MenuButtons;
+export default React.memo(MenuButtons, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});

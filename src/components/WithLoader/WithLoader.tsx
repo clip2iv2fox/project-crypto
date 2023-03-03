@@ -1,12 +1,13 @@
+import { shallowEqual } from "@babel/types";
 import React from "react";
-import { Loader } from "../Loader/Loader";
+import Loader from "../Loader/Loader";
 
 /** Пропсы, которые принимает компонент WithLoader */
 export type WithLoaderProps = React.PropsWithChildren<{
   loading: boolean;
 }>;
 
-export const WithLoader: React.FC<WithLoaderProps> = ({ loading, children }) => {
+const WithLoader: React.FC<WithLoaderProps> = ({ loading, children }) => {
   return (
     <div style={{ position: "relative" }}>
       {children}
@@ -21,3 +22,8 @@ export const WithLoader: React.FC<WithLoaderProps> = ({ loading, children }) => 
     </div>
   );
 };
+
+
+export default React.memo(WithLoader, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});
