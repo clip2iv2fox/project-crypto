@@ -1,5 +1,6 @@
 import * as React from "react";
 
+import "./configs/configureMobX";
 import * as ReactDom from "react-dom/client";
 
 import App from "./App";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import MenuButtons from "./components/MenuButtons/MenuButtons";
 import Button from "@components/Button/Button";
 import Input from "./components/Input/Input";
-import MenuButtons from "./components/MenuButtons/MenuButtons";
 import MultiDropdown, { Option } from "./components/MultiDropdown/MultiDropdown";
 import SearchIcon from "./components/Images/SearchIcon.png";
 import styles from "./Market.module.scss";
@@ -33,7 +33,9 @@ const Market = (): JSX.Element => {
   const [select, setSelect] = useState<Option[]>([]);
   const [activeTab, setActiveTab] = useState<string>("All");
   const [coins, setCoins] = useState<Coins[]>([]);
-  const [error, setError] = useState<boolean>(false)
+  const [error, setError] = useState<boolean>(false);
+  const [visibleCoins, setVisibleCoins] = useState<Coins[]>(coins.slice(0, 10));
+  const [hasMoreCoins, setHasMoreCoins] = useState<boolean>(true)
 
   const navigate = useNavigate();
 
@@ -88,31 +90,51 @@ const Market = (): JSX.Element => {
   }
 
   const card_creator = (coin: Coins) => 
-      <Card
-        key={coin.id}
-        image={coin.image}
-        title={coin.name}
-        onClick={() => goToCoin(coin.id)}
-        subtitle={coin.symbol}
-        contentUp={coin.current_price.toLocaleString()}
-        contentDown={coin.price_change_percentage_24h}
-      />
+    <Card
+      key={coin.id}
+      image={coin.image}
+      title={coin.name}
+      onClick={() => goToCoin(coin.id)}
+      subtitle={coin.symbol}
+      contentUp={coin.current_price.toLocaleString()}
+      contentDown={coin.price_change_percentage_24h}
+    />
+  
+  const coins_list = () => {return (
+    coins.map((coin: Coins) => 
+          activeTab == "All" ?
+            card_creator(coin)
+          : activeTab == "Gainer" ? 
+              Number(coin.price_change_percentage_24h) >= 0 ?
+                card_creator(coin)
+              : <div key={coin.id}/>
+            : activeTab == "Loser" ? 
+              Number(coin.price_change_percentage_24h) < 0 ?
+                card_creator(coin)
+              : <div key={coin.id}/>
+            : <div key={coin.id}/>
+        )
+      )
+    }
+  
 
-  const coins_cards = coins.map((coin: Coins) => {
-    return(
-    activeTab == "All" ?
-      card_creator(coin)
-    : activeTab == "Gainer" ? 
-        Number(coin.price_change_percentage_24h) >= 0 ?
-          card_creator(coin)
-        : <div key={coin.id}/>
-      : activeTab == "Loser" ? 
-        Number(coin.price_change_percentage_24h) < 0 ?
-          card_creator(coin)
-        : <div key={coin.id}/>
-      : <div key={coin.id}/>
-    )
-  })
+  const fetchMoreData = () => {
+    if (visibleCoins.length >= coins.length) {
+      setHasMoreCoins(false);
+      return;
+    } else {
+      setHasMoreCoins(true);
+      let slice = coins.slice(visibleCoins.length, visibleCoins.length + 10); 
+      visibleCoins.push(...slice);
+      console.log(visibleCoins)
+    }
+
+    setTimeout(() => {
+      setVisibleCoins(
+        coins.concat(Array.from({ length: 20 }))
+      );
+    }, 1500);
+  };
 
   return (
     <div className={`${styles.Market_page}`}> 
@@ -161,12 +183,11 @@ const Market = (): JSX.Element => {
             <div className={`${styles.Body_text}`}><Loader className="market"/><div>Loading</div></div>
           </div>
         :
-            coins_cards
+          coins_list()
         }
       </div>
     </div>
   )
-  
 }
 
 export default Market
