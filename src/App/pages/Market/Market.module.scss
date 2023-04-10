@@ -1,0 +1,66 @@
+@import '../../../variables.scss';
+
+.Market_page {
+    display: flex;
+    flex-direction: column;
+    width: 373px;
+    padding-top: 17px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 18px;
+
+    .Market_header {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+
+        .Market_Searcher {
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 18px;
+            align-items: center;
+
+            .SearchIcon {
+                width: 20px;
+                height: 20px;
+                margin-left: 2.5px;
+                margin-right: 2.5px;
+            }
+        }
+
+        .Market_Title_Area {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            .Market_Title {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-right: 17px;
+            }
+        }
+    }
+
+    .Market_Body {
+        justify-content: center;
+
+        .Body_loading {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-around;
+            color: $default-font-color;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 23px;
+
+            .Body_text {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+        }
+    }
+}

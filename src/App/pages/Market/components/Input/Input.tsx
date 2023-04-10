@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from 'classnames';
 import './Input.scss'
+import { shallowEqual } from "@babel/types";
 
 export type InputProps = Omit<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -12,7 +13,7 @@ export type InputProps = Omit<
   onChange: (value: string) => void;
 };
 
-export const Input: React.FC<InputProps> = ({ value, onChange, className, disabled, ...props }) => {
+const Input: React.FC<InputProps> = ({ value, onChange, className, disabled, ...props }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.value);
   };
@@ -32,3 +33,7 @@ export const Input: React.FC<InputProps> = ({ value, onChange, className, disabl
     />
   );
 };
+
+export default React.memo(Input, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});

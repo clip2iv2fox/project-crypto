@@ -1,11 +1,14 @@
+@import '../../../../../variables.scss';
+
 input[type=text]{
-    width: 294px;
+    width: 100%;
     left: 50px;
     top: 201px;
-    background: #FFFFFF;
-    border: 1px solid #DFE2E4;
+    background: $white-color;
+    border: 1px solid $opacity-font-color;
     border-radius: 4px;
     padding: 12px;
+    margin-right: 10px;
     font-family: 'Circular Std';
     font-weight: 450;
     font-size: 12px;
@@ -18,19 +21,19 @@ input[type=text]::placeholder{
     font-weight: 450;
     font-size: 12px;
     line-height: 15px;
-    color: #DFE2E4;
+    color: $opacity-font-color;
 }
 
 input[type=text]:focus {
     color: #343A40;
-    background-color: #FFFFFF;
-    border-color: #6C757D;
+    background-color: $white-color;
+    border-color: $default-font-color;
     outline: 0;
   }
 
   input[type=text]:disabled{
     background-color: rgba(248, 249, 250, 0.3);
-    color: #6C757D;
-    border-color: #DFE2E4;
+    color: $default-font-color;
+    border-color: $opacity-font-color;
     outline: 0;
   }

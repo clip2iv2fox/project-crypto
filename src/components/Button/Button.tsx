@@ -2,8 +2,9 @@ import React from "react";
 
 import classNames from "classnames";
 
-import { Loader, LoaderSize } from "../Loader/Loader";
+import  Loader, { LoaderSize } from "../Loader/Loader";
 import "./Button.scss";
+import { shallowEqual } from "@babel/types";
 
 export type ButtonProps = React.PropsWithChildren<{
   /**
@@ -14,7 +15,7 @@ export type ButtonProps = React.PropsWithChildren<{
 }> &
   React.ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   children,
   loading,
   className,
@@ -34,11 +35,15 @@ export const Button: React.FC<ButtonProps> = ({
       style={style}
     >
       {loading && (
-      <div style={{ marginRight: '4.47px' }}>
-        <Loader className={'b'} size={LoaderSize.s}/>
-      </div>
+        <div className="loading_text">
+          <Loader className={"b"} size={LoaderSize.s} />
+        </div>
       )}
       {children}
     </button>
   );
 };
+
+export default React.memo(Button, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});

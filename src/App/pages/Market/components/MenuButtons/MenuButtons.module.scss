@@ -1,0 +1,38 @@
+@import '../../../../../variables.scss';
+
+.menu_buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 16px;
+    width: 100%;
+    border-bottom: 1px solid $opacity-font-color;
+  
+    .menu_button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      font-weight: bold;
+      color: $default-font-color;
+      border: none;
+      background-color: transparent;
+      padding-bottom: 1px;
+      padding-right: 16px;
+      padding-left: 16px;
+      cursor: pointer;
+      transition: 200ms;
+  
+      &:hover {
+        color: $blue-color;
+        transition: 200ms;
+      }
+  
+      &._active {
+        color: $blue-color;
+        border-bottom: 2px solid $blue-color;
+        transition: none;
+      }
+    }
+  }
+  

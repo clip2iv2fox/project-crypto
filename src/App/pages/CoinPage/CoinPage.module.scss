@@ -1,0 +1,174 @@
+@import '../../../variables.scss'; 
+
+.Exit_icon {
+    display: flex;
+    justify-content: flex-start;
+    width: 10px;
+    height: 10px;
+    border: 3px solid rgba(33, 37, 41, 1);
+    border-top: transparent;
+    border-right: transparent;
+    transform: rotate(45deg);
+    cursor: pointer;
+    margin-right: 16px;
+}
+
+.Page_loading {
+    display: flex;
+    flex-direction: column;
+    width: 373px;
+    padding: 22px 16px 18px 16px;
+    color: $default-font-color;
+
+    .Body_text {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 500;
+        font-size: 18px;
+        line-height: 23px;
+    }
+
+    .Body_text.error {
+        color: $minus-color;
+    }
+}
+
+.Coin_page {
+    display: flex;
+    flex-direction: column;
+    width: 373px;
+    padding: 17px 16px 18px 16px;
+
+    .Coin_Header {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 16px;
+        align-items: center;
+
+        .Coin_image {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .Coin_name {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+
+            .Coin_Title {
+                font-weight: 450;
+                font-size: 16px;
+                line-height: 20px;
+                color: #212529;
+                margin-right: 4px;
+            }
+
+            .Coin_abriviation {
+                font-weight: 450;
+                font-size: 10px;
+                line-height: 13px;
+                color: $default-font-color;
+                margin-right: 12px;
+            }
+        }
+    }
+
+    .Coin_body {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 16px;
+
+        .Price_title {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            margin-bottom: 16px;
+
+            .Price {
+                font-weight: 500;
+                font-size: 24px;
+                line-height: 30px;
+                color: #212529;
+                margin-right: 12px;
+            }
+
+            .Price_difference {
+                font-weight: 450;
+                font-size: 16px;
+                line-height: 20px;
+                display: flex;
+                align-items: center;
+            }
+
+            .Price_difference.plus {
+                color: $plus-color;
+            }
+
+            .Price_difference.minus {
+                color: $plus-color;
+            }
+        }
+
+        .Coin_info {
+            display:flex;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: space-between;
+            width: 100%;
+            padding-bottom: 11px;
+            padding-top: 11px;
+            border-bottom: 1px solid $default-font-color;
+
+            .info_name {
+                font-weight: 450;
+                font-size: 14px;
+                line-height: 18px;
+                color: $default-font-color;
+            }
+
+            .info_price {
+                font-weight: 450;
+                font-size: 14px;
+                line-height: 18px;
+                color: #212529;
+            }
+        }
+
+        .Coin_description {
+            display: flex;
+            flex-direction: column;
+
+            .description_title {
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 20px;
+                color: $default-font-color;
+                margin-top: 21px;
+            }
+
+            .description_info {
+                font-weight: 450;
+                font-size: 14px;
+                line-height: 18px;
+                color: #212529;
+                margin-top: 8px;
+            }
+        }
+
+        .Coin_diagram {
+            display: flex;
+            flex-direction: column;
+
+            .diagram_title {
+                font-weight: 500;
+                font-size: 16px;
+                line-height: 20px;
+                color: $default-font-color;
+                margin-top: 21px;
+            }
+        }
+    }
+}

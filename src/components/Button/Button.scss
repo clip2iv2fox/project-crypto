@@ -1,5 +1,6 @@
+@import '../../variables.scss';
+
 .button {
-  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -11,11 +12,15 @@
   font-weight: 450;
   line-height: 18px;
   height: 34px;
-  background-color: rgb(223, 226, 228);
+  background-color: $opacity-font-color;
   color: #343A40;
   font-family: 'Circular Std';
   cursor: pointer;
   transition: 250ms;
+
+  .loading_text {
+    margin-right: 4.47px;
+  }
 }
 
 .loader {
@@ -51,8 +56,12 @@
 }
 
 .button:active {
-  -webkit-box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
-  -moz-box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
-  box-shadow: 0px 0px 0px 2px rgb(223, 226, 228);
+  -webkit-box-shadow: 0px 0px 0px 2px $opacity-font-color;
+  -moz-box-shadow: 0px 0px 0px 2px $opacity-font-color;
+  box-shadow: 0px 0px 0px 2px $opacity-font-color;
   transition: none;
+}
+
+.search {
+  height: 41px;
 }

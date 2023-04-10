@@ -1,3 +1,4 @@
+import { shallowEqual } from "@babel/types";
 import React from "react";
 import './CheckBox.scss'
 
@@ -9,7 +10,7 @@ export type CheckBoxProps = Omit<
   onChange: (value: boolean) => void;
 };
 
-export const CheckBox: React.FC<CheckBoxProps> = ({ onChange, disabled, ...rest }) => {
+const CheckBox: React.FC<CheckBoxProps> = ({ onChange, disabled, ...rest }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onChange(event.target.checked);
   };
@@ -24,3 +25,7 @@ export const CheckBox: React.FC<CheckBoxProps> = ({ onChange, disabled, ...rest 
     />
   );
 };
+
+export default React.memo(CheckBox, (prevProps, nextProps) => {
+  return shallowEqual(prevProps, nextProps);
+});
