@@ -6,6 +6,7 @@ import { Coins } from "@pages/Market/Market";
 import Loader from "@components/Loader/Loader";
 import { Coin_info } from "./components/CoinInfo/CoinInfo";
 import { useParams } from "react-router-dom";
+import Chart from "./components/CoinInfo/Chart";
 
 const CoinPage = () => {
   const navigate = useNavigate();
@@ -75,11 +76,10 @@ const CoinPage = () => {
 
   return (
     error ?
-    <div className={`${styles.Page_loading}`}>
-      <div className={`${styles.Exit_icon}`} onClick={() => navigate(`/`)} />
-
-      <div className={`${styles.Body_text} ${styles.error}`}>Error, wrong coin...</div>
-    </div>
+      <div className={`${styles.Page_loading}`}>
+        <div className={`${styles.Exit_icon}`} onClick={() => navigate(`/`)} />
+        <div className={`${styles.Body_text} ${styles.error}`}>Error, wrong coin...</div>
+      </div>
     :
       coin.id === "" ?
         <div className={`${styles.Page_loading}`}>
@@ -110,13 +110,18 @@ const CoinPage = () => {
               <div className={`${styles.Price}`}>
                 ${coin.current_price.toLocaleString()}
               </div>
-              <div className={`${styles.Price_difference} ${Number(coin.price_change_percentage_24h) >= 0 ? styles.plus : styles.minus}`}>
+              <div className={
+                `${styles.Price_difference} ${Number(coin.price_change_percentage_24h) >= 0 ? 
+                  styles.plus 
+                : 
+                  styles.minus}`
+              }>
                 {
                   Number(coin.price_change_24h) >= 0 ? 
                     `+${coin.price_change_24h.toLocaleString()}` 
                   : 
                     coin.price_change_24h.toLocaleString()
-                }  
+                } {' '}  
                 ({
                   Number(coin.price_change_percentage_24h) >= 0 ? 
                     `+${coin.price_change_percentage_24h.toLocaleString()}` 
@@ -126,11 +131,30 @@ const CoinPage = () => {
               </div>
             </div>
             <Coin_info name={"Market Cap"} price={`$${coin.market_cap.toLocaleString()}`}/>
-            <Coin_info name={"Fully Diluted Valuation"} price={`$
-              ${coin.fully_diluted_valuation !== undefined ? coin.fully_diluted_valuation.toLocaleString() : coin.fully_diluted_valuation}`}/>
-            <Coin_info name={"Circulating Supply"} price={coin.circulating_supply == null ? "<none>" : coin.circulating_supply.toLocaleString()}/>
-            <Coin_info name={"Total Supply"} price={coin.total_supply == null ? "<none>" : coin.total_supply.toLocaleString()}/>
-            <Coin_info name={"Max Supply"} price={coin.max_supply == null ? "<none>" : coin.max_supply.toLocaleString()}/>
+            <Coin_info name={"Fully Diluted Valuation"} price={
+              `$${coin.fully_diluted_valuation !== undefined ? 
+                coin.fully_diluted_valuation.toLocaleString() 
+              : 
+                coin.fully_diluted_valuation}`
+            }/>
+            <Coin_info name={"Circulating Supply"} price={
+              coin.circulating_supply == null ? 
+                "<none>" 
+              : 
+                coin.circulating_supply.toLocaleString()
+            }/>
+            <Coin_info name={"Total Supply"} price={
+              coin.total_supply == null ? 
+                "<none>" 
+              : 
+                coin.total_supply.toLocaleString()
+            }/>
+            <Coin_info name={"Max Supply"} price={
+              coin.max_supply == null ? 
+                "<none>" 
+              : 
+                coin.max_supply.toLocaleString()
+            }/>
             <div className={`${styles.Coin_description}`}>
               <div className={`${styles.description_title}`}>
                 Description
@@ -138,6 +162,14 @@ const CoinPage = () => {
               <article className={`${styles.description_info}`}>
                 {coin.description !== undefined ? description_creator(coin.description) : coin.description}
               </article>
+            </div>
+            <div className={`${styles.Coin_description}`}>
+              <div className={`${styles.description_title}`}>
+                Diagram
+              </div>
+              
+                <Chart/>
+              
             </div>
           </div>
         </div>
