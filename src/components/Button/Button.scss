@@ -86,9 +86,9 @@
 .time_using:active {
   background-color: rgba(223, 226, 228, 0.5);
   border: 1px solid $blue-color;
-  -webkit-box-shadow: 0px 0px 0px 2px $blue-color;
-  -moz-box-shadow: 0px 0px 0px 2px $blue-color;
-  box-shadow: 0px 0px 0px 2px $blue-color;
+  -webkit-box-shadow: 0px 0px 0px 1px $blue-color;
+  -moz-box-shadow: 0px 0px 0px 1px $blue-color;
+  box-shadow: 0px 0px 0px 1px $blue-color;
   color: $blue-color;
   transition: none;
 }

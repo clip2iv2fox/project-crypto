@@ -6,16 +6,15 @@ import { Coins } from "@pages/Market/Market";
 import Loader from "@components/Loader/Loader";
 import { Coin_info } from "./components/CoinInfo/CoinInfo";
 import { useParams } from "react-router-dom";
-import { Chart } from "./components/CoinInfo/Chart";
+import { Chart, Date } from "./components/CoinInfo/Chart";
 import Button from "@components/Button/Button";
 
 const CoinPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false)
-  const [time, setTime] = useState<string>("20")
   const [period, setPeriod] = useState<string>("1")
   const [buttonUsed, setButtonUsed] = useState<number>(1)
-  const [diagramData, setDiagramData] = useState()
+  const [diagramData, setDiagramData] = useState<Date[]>()
   const [coin, setCoin] = useState<Coins>({
     id: "",
     symbol: "",
@@ -35,23 +34,28 @@ const CoinPage = () => {
   const { id } = useParams();
 
   const rewriteData = (data: any) => {
-    const new_data = [];
-
-    for (let i = 0; i <= data.length; i = i + data.length / 40){
-      new_data.push(data[i])
+    const newData = [];
+  
+    for (let i = 0; i < data.length; i += 20) {
+      newData.push({
+        name: `${id} ${period} days`,
+        coin: data[i][1],
+        amt: data[i][0],
+      });
     }
-
-    return new_data;
-  }
+  
+    return newData;
+  };
+  
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await axios({
           method: "get",
-          url: `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${period}&interval=${time}`,
+          url: `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${period}`,
         });
-        setDiagramData(result.data.prices);
+        setDiagramData(rewriteData(result.data.prices));
         setError(false)
       } catch (error) {
         setError(true)
@@ -59,6 +63,7 @@ const CoinPage = () => {
     };
 
     fetchData();
+    console.log(period)
     console.log(diagramData)
   }, [buttonUsed]);
 
@@ -106,10 +111,6 @@ const CoinPage = () => {
     const doc = parser.parseFromString(description, "text/html");
     return <div dangerouslySetInnerHTML={{ __html: description }} />;
   };
-
-  const changeTime = (time: string, period: string) => {
-
-  }
 
   return (
     error ?
@@ -205,28 +206,28 @@ const CoinPage = () => {
                 Diagram
               </div>
               <div className={`${styles.diagram}`}>
-                <Chart/>
+                <Chart data={diagramData}/>
               </div>
               <div className={`${styles.time_buttons}`}>
-                <Button className={buttonUsed == 1 ? 'time_using' : `time`} onClick={() => (changeTime("1", ""), setButtonUsed(1))}>
+                <Button className={buttonUsed == 1 ? 'time_using' : `time`} onClick={() => (setPeriod("1"), setButtonUsed(1))}>
                   1 H
                 </Button>
-                <Button className={buttonUsed == 2 ? 'time_using' : `time`} onClick={() => (changeTime("1", "hourly"), setButtonUsed(2))}>
+                <Button className={buttonUsed == 2 ? 'time_using' : `time`} onClick={() => (setPeriod("1"), setButtonUsed(2))}>
                   24 H
                 </Button>
-                <Button className={buttonUsed == 3 ? 'time_using' : `time`} onClick={() => (changeTime("7", ""), setButtonUsed(3))}>
+                <Button className={buttonUsed == 3 ? 'time_using' : `time`} onClick={() => (setPeriod("7"), setButtonUsed(3))}>
                   1 W
                 </Button>
-                <Button className={buttonUsed == 4 ? 'time_using' : `time`} onClick={() => (changeTime("30", ""), setButtonUsed(4))}>
+                <Button className={buttonUsed == 4 ? 'time_using' : `time`} onClick={() => (setPeriod("30"), setButtonUsed(4))}>
                   1 M
                 </Button>
-                <Button className={buttonUsed == 5 ? 'time_using' : `time`} onClick={() => (changeTime("183", ""), setButtonUsed(5))}>
+                <Button className={buttonUsed == 5 ? 'time_using' : `time`} onClick={() => (setPeriod("183"), setButtonUsed(5))}>
                   6 M
                 </Button>
-                <Button className={buttonUsed == 6 ? 'time_using' : `time`} onClick={() => (changeTime("365", ""), setButtonUsed(6))}>
+                <Button className={buttonUsed == 6 ? 'time_using' : `time`} onClick={() => (setPeriod("365"), setButtonUsed(6))}>
                   1 Y
                 </Button>
-                <Button className={buttonUsed == 7 ? 'time_using' : `time`} onClick={() => (changeTime("max", ""), setButtonUsed(7))}>
+                <Button className={buttonUsed == 7 ? 'time_using' : `time`} onClick={() => (setPeriod("max"), setButtonUsed(7))}>
                   All
                 </Button>
               </div>
