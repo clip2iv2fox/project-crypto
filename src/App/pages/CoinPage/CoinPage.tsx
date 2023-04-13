@@ -6,15 +6,15 @@ import { Coins } from "@pages/Market/Market";
 import Loader from "@components/Loader/Loader";
 import { Coin_info } from "./components/CoinInfo/CoinInfo";
 import { useParams } from "react-router-dom";
-import { Chart, Date } from "./components/CoinInfo/Chart";
+import { Chart, Data } from "./components/CoinInfo/Chart";
 import Button from "@components/Button/Button";
 
 const CoinPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false)
-  const [period, setPeriod] = useState<string>("1")
-  const [buttonUsed, setButtonUsed] = useState<number>(1)
-  const [diagramData, setDiagramData] = useState<Date[]>()
+  const [period, setPeriod] = useState<string>("max")
+  const [buttonUsed, setButtonUsed] = useState<number>(7)
+  const [diagramData, setDiagramData] = useState<Data[]>([])
   const [coin, setCoin] = useState<Coins>({
     id: "",
     symbol: "",
@@ -35,14 +35,32 @@ const CoinPage = () => {
 
   const rewriteData = (data: any) => {
     const newData = [];
-  
-    for (let i = 0; i < data.length; i += 20) {
-      newData.push({
-        name: `${id} ${period} days`,
-        coin: data[i][1],
-        amt: data[i][0],
-      });
+    var date;
+
+    if (buttonUsed == 1 ){
+      for (let i = data.length - 13; i < data.length; i = i + 1) {
+        date = new Date(data[i][0]);
+
+        newData.push({
+          name: `${date.toLocaleTimeString("it-IT")}`,
+          time: ``,
+          coin: data[i][1],
+          amt: data[i][0],
+        });
+      }
+    } else {
+      for (let i = 0; i < data.length; i += 20) {
+        date = new Date(data[i][0]);
+
+        newData.push({
+          name: `${date.toLocaleDateString("default")}`,
+          time: ``,
+          coin: data[i][1],
+          amt: data[i][0],
+        });
+      }
     }
+    
   
     return newData;
   };
@@ -63,8 +81,6 @@ const CoinPage = () => {
     };
 
     fetchData();
-    console.log(period)
-    console.log(diagramData)
   }, [buttonUsed]);
 
   useEffect(() => {

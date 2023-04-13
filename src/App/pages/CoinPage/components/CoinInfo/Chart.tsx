@@ -88,14 +88,15 @@ const dta = [{
   amt: '6',
 }]
 
-export type Date = {
+export type Data = {
   name: string;
+  time: string;
   coin: number;
   amt: number;
 }
 
 type ChartProps = {
-  data: any;
+  data: Data[];
 };
 
 
