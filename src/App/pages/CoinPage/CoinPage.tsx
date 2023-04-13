@@ -1,16 +1,21 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import styles from "./CoinPage.module.scss";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { Coins } from "@pages/Market/Market";
 import Loader from "@components/Loader/Loader";
 import { Coin_info } from "./components/CoinInfo/CoinInfo";
 import { useParams } from "react-router-dom";
-import Chart from "./components/CoinInfo/Chart";
+import { Chart } from "./components/CoinInfo/Chart";
+import Button from "@components/Button/Button";
 
 const CoinPage = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<boolean>(false)
+  const [time, setTime] = useState<string>("20")
+  const [period, setPeriod] = useState<string>("1")
+  const [buttonUsed, setButtonUsed] = useState<number>(1)
+  const [diagramData, setDiagramData] = useState()
   const [coin, setCoin] = useState<Coins>({
     id: "",
     symbol: "",
@@ -28,6 +33,34 @@ const CoinPage = () => {
   }
   )
   const { id } = useParams();
+
+  const rewriteData = (data: any) => {
+    const new_data = [];
+
+    for (let i = 0; i <= data.length; i = i + data.length / 40){
+      new_data.push(data[i])
+    }
+
+    return new_data;
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios({
+          method: "get",
+          url: `https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=${period}&interval=${time}`,
+        });
+        setDiagramData(result.data.prices);
+        setError(false)
+      } catch (error) {
+        setError(true)
+      }
+    };
+
+    fetchData();
+    console.log(diagramData)
+  }, [buttonUsed]);
 
   useEffect(() => {
     const fetchCoin = async () => {
@@ -73,6 +106,10 @@ const CoinPage = () => {
     const doc = parser.parseFromString(description, "text/html");
     return <div dangerouslySetInnerHTML={{ __html: description }} />;
   };
+
+  const changeTime = (time: string, period: string) => {
+
+  }
 
   return (
     error ?
@@ -163,13 +200,36 @@ const CoinPage = () => {
                 {coin.description !== undefined ? description_creator(coin.description) : coin.description}
               </article>
             </div>
-            <div className={`${styles.Coin_description}`}>
-              <div className={`${styles.description_title}`}>
+            <div className={`${styles.Coin_diagram}`}>
+              <div className={`${styles.diagram_title}`}>
                 Diagram
               </div>
-              
+              <div className={`${styles.diagram}`}>
                 <Chart/>
-              
+              </div>
+              <div className={`${styles.time_buttons}`}>
+                <Button className={buttonUsed == 1 ? 'time_using' : `time`} onClick={() => (changeTime("1", ""), setButtonUsed(1))}>
+                  1 H
+                </Button>
+                <Button className={buttonUsed == 2 ? 'time_using' : `time`} onClick={() => (changeTime("1", "hourly"), setButtonUsed(2))}>
+                  24 H
+                </Button>
+                <Button className={buttonUsed == 3 ? 'time_using' : `time`} onClick={() => (changeTime("7", ""), setButtonUsed(3))}>
+                  1 W
+                </Button>
+                <Button className={buttonUsed == 4 ? 'time_using' : `time`} onClick={() => (changeTime("30", ""), setButtonUsed(4))}>
+                  1 M
+                </Button>
+                <Button className={buttonUsed == 5 ? 'time_using' : `time`} onClick={() => (changeTime("183", ""), setButtonUsed(5))}>
+                  6 M
+                </Button>
+                <Button className={buttonUsed == 6 ? 'time_using' : `time`} onClick={() => (changeTime("365", ""), setButtonUsed(6))}>
+                  1 Y
+                </Button>
+                <Button className={buttonUsed == 7 ? 'time_using' : `time`} onClick={() => (changeTime("max", ""), setButtonUsed(7))}>
+                  All
+                </Button>
+              </div>
             </div>
           </div>
         </div>
