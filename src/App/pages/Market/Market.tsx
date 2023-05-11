@@ -116,25 +116,6 @@ const Market = (): JSX.Element => {
         )
       )
     }
-  
-
-  const fetchMoreData = () => {
-    if (visibleCoins.length >= coins.length) {
-      setHasMoreCoins(false);
-      return;
-    } else {
-      setHasMoreCoins(true);
-      let slice = coins.slice(visibleCoins.length, visibleCoins.length + 10); 
-      visibleCoins.push(...slice);
-      console.log(visibleCoins)
-    }
-
-    setTimeout(() => {
-      setVisibleCoins(
-        coins.concat(Array.from({ length: 20 }))
-      );
-    }, 1500);
-  };
 
   return (
     <div className={`${styles.Market_page}`}> 
