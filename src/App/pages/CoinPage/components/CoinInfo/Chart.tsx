@@ -1,92 +1,5 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-
-
-const dta = [{
-  name: "string;,",
-  coin: '1',
-  amt: '2',
-},{
-  name: "string;,",
-  coin: '3',
-  amt: '5',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-},{
-  name: "string;,",
-  coin: '4',
-  amt: '6',
-}]
+import { LineChart, Line, XAxis, Tooltip } from 'recharts';
 
 export type Data = {
   name: string;
@@ -98,7 +11,6 @@ export type Data = {
 type ChartProps = {
   data: Data[];
 };
-
 
 export const Chart: React.FC<ChartProps> = ({data}) => {
     return (
